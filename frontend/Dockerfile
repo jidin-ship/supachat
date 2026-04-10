@@ -1,15 +1,19 @@
-FROM node:20
+FROM node:20-alpine
 
 WORKDIR /app
 
-COPY package*.json ./
+# Install dependencies first (cache optimization)
+COPY package.json package-lock.json ./
+
 RUN npm install
 
+# Copy rest of the code
 COPY . .
 
+# Build app
 RUN npm run build
 
 EXPOSE 3000
 
-CMD ["npx", "next", "start"]
+CMD ["npm", "start"]
 
