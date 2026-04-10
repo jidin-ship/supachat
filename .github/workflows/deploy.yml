@@ -13,14 +13,14 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: SSH into EC2 and deploy
-        uses: appleboy/ssh-action@v1.0.3
+      - name: SSH to EC2 and deploy
+        uses: appleboy/ssh-action@v1.0.0
         with:
           host: ${{ secrets.EC2_HOST }}
-          username: ${{ secrets.EC2_USER }}
+          username: ubuntu
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
             cd ~/supachat
-            git pull origin main
+            git pull
             docker compose down
-            docker compose up --build -d
+            docker compose up -d --build
